@@ -1,16 +1,17 @@
 '''
 Pas tant pour jouer, plus pour suivre une partie.
-fct jouer coup va sois déplacer un pion ou ajouter un mur
+fct jouer coup va déplacer un pion ou ajouter un mur
 
 Pour ajouter Sandrine et Fred, settings, collaborators, ajouter leurs noms git hub
 
-partie 3, notre classe va devoir ouer contre le robot du prof.
+partie 3, notre classe va devoir jouer contre le robot du prof.
 '''
 
-        ### Pour le Graphe, pas touche!
+
 import networkx as nx
 
 
+### Pour le Graphe, pas touche!
 def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
     """
     Crée le graphe des déplacements admissibles pour les joueurs.
@@ -78,9 +79,9 @@ def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
     return graphe
 
 
+### Pour que l'erreur existe
 class QuoridorError(Exception):
     pass
-
 
 
 class Quoridor:
@@ -102,6 +103,7 @@ class Quoridor:
             self.joueurs = joueurs
             self.murs =  {horizontaux: murs[horizontaux], verticaux: murs[verticaux]}
 
+        # pas certaine de mes init pour les murs...
 
         
         """
@@ -120,8 +122,8 @@ class Quoridor:
         positions (x, y) des murs horizontaux, et une clé 'verticaux' associée à la liste des
         positions (x, y) des murs verticaux. Par défaut, il n'y a aucun mur placé sur le jeu.
 
-        - :raises QuoridorError: si l'argument 'joueurs' n'est pas itérable. 
-        - :raises QuoridorError: si l'itérable de joueurs en contient plus de deux.
+        - fait :raises QuoridorError: si l'argument 'joueurs' n'est pas itérable. 
+        - fait :raises QuoridorError: si l'itérable de joueurs en contient plus de deux.
         :raises QuoridorError: si le nombre de murs qu'un joueur peut placer est >10, ou négatif.
         :raises QuoridorError: si la position d'un joueur est invalide.
         :raises QuoridorError: si l'argument 'murs' n'est pas un dictionnaire lorsque présent.
@@ -130,15 +132,24 @@ class Quoridor:
         """
 
     def __str__(self):
+    # La structure est là, mais les variables ont un autre nom...
+    
+    # donc, je croyais qu'on pouvait placer les bonhommes sur le damier avec self.joueurs, 
+    # mais non, ça va être avec étatjeu, qui, similairement à la 1re partie, va nous 
+    # retourner un dictionnaire sur l'état de la partie. 
+    # Il faut donc initialiser un dictionnaire dans étatjeu qui à la même forme que ce qu'on recevait 
+    # dans la 1re partie, sinon on va se faire chier à changer la fonction __str__
+
         """
         Produire la représentation en art ascii correspondant à l'état actuel de la partie. 
         Cette représentation est la même que celle du TP précédent.
 
         :returns: la chaîne de caractères de la représentation.
         """
-        nom1 = dic['état']['joueurs'][0]['nom']
+        #nom1 = self.joueurs[0]['nom']
+        #nom2 = self.joueurs[1]['nom']
         damier = ''
-        pligne = f'Légende: 1 = {nom1}, 2 = automate \n' + '   ' + 35*'-' + '\n'
+        pligne = f'Légende: 1 = {nom1}, 2 = {nom2} \n' + '   ' + 35*'-' + '\n'
         for i in range(9, 0, -1):
             if i != 1:
                 damier += f'{i}' +  ' | .' + 8*'   .' + ' |' '\n' + '  |' + 35* ' ' + '| \n'
@@ -184,7 +195,7 @@ class Quoridor:
 
         return(pligne + '\n'.join(''.join(i for i in ligne) for ligne in damier) + '\n')
 
-        def déplacer_jeton(self, joueur, position):
+    def déplacer_jeton(self, joueur, position):
             """
             Pour le joueur spécifié, déplacer son jeton à la position spécifiée.
 
@@ -195,7 +206,7 @@ class Quoridor:
             :raises QuoridorError: si la position est invalide pour l'état actuel du jeu.
             """
 
-        def état_partie(self):
+    def état_partie(self):
         """
         Produire l'état actuel de la partie.
 
