@@ -98,10 +98,9 @@ class Quoridor:
             self.joueurs = joueurs
 
     def __str__(self):
-
         dico = self.état['joueurs'][0]
 
-        legende = 'Légende: 1: ' + self.nom_joueur1 +  ' 2:' + self.nom_joueur2 + '\n'
+        legende = 'Légende: 1: ' + self.joueurs[0]['nom'] +  ' 2:' + self.joueurs[0]['nom'] + '\n'
         top = ' '*3 + '-'*35 + ' \n'
         temp_middle = []
         empty_mid_section = ' '*2 + '|' + ' '.join(['   ']*9) + '|\n'
@@ -125,15 +124,15 @@ class Quoridor:
 
         #position joueur 2
         for position in range(1):
-            self.position_X_j2, self.position_Y_j2 = dico["joueurs"][1]['pos']
-            board_split[-2*self.position_Y_j2+20][self.position_X_j2*4] = '2'
+            self.joueurs[0]['pos'][0], self.joueurs[0]['pos'][1] = dico["joueurs"][1]['pos']
+            board_split[-2*self.joueurs[0]['pos'][1]+20][self.joueurs[0]['pos'][0]*4] = '2'
 
         #PLACER MURS
         #placer murs horizontaux
         for placement in range(len(dico["murs"]["horizontaux"])):
-            x, y = dico["murs"]["horizontaux"][placement]
+            self.joueurs[1]['pos'][0], self.joueurs[1]['pos'][1] = dico["murs"]["horizontaux"][placement]
             for variable in range(7):
-                board_split[-2*y+21][4*x-1+variable] = '-'
+                board_split[-2*self.joueurs[1]['pos'][1]+21][4*self.joueurs[1]['pos'][0]-1+variable] = '-'
 
         #placer murs verticaux
         for placement in range(len(dico["murs"]["verticaux"])):
@@ -157,17 +156,8 @@ class Quoridor:
 
     def état_partie(self):
         """Cette fonction produit/retourne l'état actuel de la partie"""
-        état_jeu = {
-            'joueurs': [
-                {'nom': nom1, 'murs': n1, 'pos': (x1, y1)},
-                {'nom': nom2, 'murs': n2, 'pos': (x2, y2)},
-            ],
-            'murs': {
-                'horizontaux': [...],
-                'verticaux': [...],
-            }
-        }
-
+        état_jeu = {'joueurs': [{'nom': nom1, 'murs': n1, 'pos': (x1, y1)},{'nom': nom2, 'murs': n2, 'pos': (x2, y2)},],
+            'murs': {'horizontaux': [...], 'verticaux': [...],}}
         état_jeu2 = copy.deepcopy(état_jeu)
 
         return état_jeu2
@@ -186,14 +176,14 @@ class Quoridor:
     def partie_terminée(self):
         """
         Déterminer si la partie est terminée.
-        :returns: le nom du gagnant si la partie est terminée; False autrement.
         """
-        if self.position_Y_j1 >= 10:
+        if self.self.joueurs[0]['pos'][1] >= 10:
             return f'{self.nom_joueur1}'
-        if self.position_Y_j2 <= 0:
+        if self.self.joueurs[1]['pos'][1] <= 0:
             return f'{self.nom_joueur2}'
         else:
             return False
+
     def placer_mur(self, joueur, position, orientation):
         """
         Pour le joueur spécifié, placer un mur à la position spécifiée.
