@@ -78,7 +78,6 @@ class Quoridor:
     def __init__(self, joueurs, murs=None):
         """
         Produire la représentation en art ascii correspondant à l'état actuel de la partie. 
-<<<<<<< HEAD
         """  
         if not isinstance(joueurs, iter):
             raise QuoridorError("'joueurs' doit être un itérable")
@@ -111,22 +110,6 @@ class Quoridor:
             self.murs_horizontaux = murs.get('horizontaux')
             self.murs_verticaux = murs.get('verticaux')
 
-=======
-        Cette représentation est la même que celle du TP précédent.
-
-        :returns: la chaîne de caractères de la représentation.
-        """
-
-        if isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
-            self.joueurs = [{nom: joueurs[0], murs: 10, pos: (5, 1)}, 
-                            {nom: joueurs[1], murs: 10, pos: (5, 9)}]
-            self.murs = {horizontaux: [], verticaux: []}
-
-        elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
-            self.joueurs = joueurs
-    
-
->>>>>>> 649519afbb94bfd1ddbef2ade903f6c3d8852334
     def __str__(self):
 
         legende = 'Légende: 1: ' + idul +  ' 2:automate' + '\n'
