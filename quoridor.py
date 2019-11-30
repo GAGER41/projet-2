@@ -1,10 +1,6 @@
 '''
-Pas tant pour jouer, plus pour suivre une partie.
-fct jouer coup va déplacer un pion ou ajouter un mur
-
-Pour ajouter Sandrine et Fred, settings, collaborators, ajouter leurs noms git hub
-
-partie 3, notre classe va devoir jouer contre le robot du prof.
+Projet servant à suivre une partie et avoir une fonction
+déterminant le meilleur coup possible
 '''
 import networkx as nx
 import unittest
@@ -14,7 +10,6 @@ import unittest
 def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
     """
     Crée le graphe des déplacements admissibles pour les joueurs.
-
     :param joueurs: une liste des positions (x,y) des joueurs.
     :param murs_horizontaux: une liste des positions (x,y) des murs horizontaux.
     :param murs_verticaux: une liste des positions (x,y) des murs verticaux.
@@ -87,10 +82,6 @@ class Quoridor:
 
         :returns: la chaîne de caractères de la représentation.
         """
-        
-
-
-        """ Docstring """
 
         if isinstance(joueurs[0], str):
             self.nom_joueur1 = joueurs[0]
@@ -119,9 +110,7 @@ class Quoridor:
 
     def __str__(self):
         legende = 'Légende: 1: ' + self.nom_joueur1 +  ' 2:' + self.nom_joueur2 + '\n'
-
         top = ' '*3 + '-'*35 + ' \n'
-
         temp_middle = []
         empty_mid_section = ' '*2 + '|' + ' '.join(['   ']*9) + '|\n'
 
@@ -129,7 +118,6 @@ class Quoridor:
             temp_middle.append(f'{i} |' + ' '.join([' . ']*9) + '|\n')
 
         middle = empty_mid_section.join(temp_middle)
-
         bot = '--|' + '-'*35 + ' \n'
         bot += '  | ' + '   '.join([f'{i}' for i in range(1, 10)])
         board = ''.join([legende, top, middle, bot])
@@ -165,13 +153,9 @@ class Quoridor:
         rep = '\n'.join([''.join(elem) for elem in board_split])
         print(rep)
 
-
     def déplacer_jeton(self, joueur, position):
-
-
             """
             Pour le joueur spécifié, déplacer son jeton à la position spécifiée.
-
             :param joueur: un entier spécifiant le numéro du joueur (1 ou 2).
             :param position: le tuple (x, y) de la position du jeton (1<=x<=9 et 1<=y<=9).
             :raises QuoridorError: si le numéro du joueur est autre que 1 ou 2.
@@ -180,7 +164,7 @@ class Quoridor:
             """
 
     def état_partie(self):
-
+        """Cette fonction produit/retourne l'état actuel de la partie"""
         état_jeu = {
             'joueurs': [
                 {'nom': self.nom_joueur1, 'murs': self.nb_murs_restant_j1, 'pos': (self.position_X_j1, self.position_Y_j1)},
@@ -192,25 +176,6 @@ class Quoridor:
             }
         }
         return état_jeu
-
-
-
-        """
-        Produire l'état actuel de la partie.
-
-        :returns: une copie de l'état actuel du jeu sous la forme d'un dictionnaire:
-    
-        où la clé 'nom' d'un joueur est associée à son nom, la clé 'murs' est associée 
-        au nombre de murs qu'il peut encore placer sur ce damier, et la clé 'pos' est 
-        associée à sa position sur le damier. Une position est représentée par un tuple 
-        de deux coordonnées x et y, où 1<=x<=9 et 1<=y<=9.
-
-        Les murs actuellement placés sur le damier sont énumérés dans deux listes de
-        positions (x, y). Les murs ont toujours une longueur de 2 cases et leur position
-        est relative à leur coin inférieur gauche. Par convention, un mur horizontal se
-        situe entre les lignes y-1 et y, et bloque les colonnes x et x+1. De même, un
-        mur vertical se situe entre les colonnes x-1 et x, et bloque les lignes y et y+1.
-        """
 
     def jouer_coup(self, joueur):
         """
@@ -226,14 +191,17 @@ class Quoridor:
     def partie_terminée(self):
         """
         Déterminer si la partie est terminée.
-
         :returns: le nom du gagnant si la partie est terminée; False autrement.
         """
-
+        if self.position_Y_j1 >= 10:
+            return f'{self.nom_joueur1}'
+        if self.position_Y_j2 <= 0:
+            return f'{self.nom_joueur2}'
+        else:
+            return False
     def placer_mur(self, joueur, position, orientation):
         """
         Pour le joueur spécifié, placer un mur à la position spécifiée.
-
         :param joueur: le numéro du joueur (1 ou 2).
         :param position: le tuple (x, y) de la position du mur.
         :param orientation: l'orientation du mur ('horizontal' ou 'vertical').
