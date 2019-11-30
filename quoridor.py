@@ -93,17 +93,6 @@ class Quoridor:
         elif len(joueurs) > 2:
             raise QuoridorError("seulement 2 joueurs acceptés")
 
-        if isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
-            self.joueurs = [{nom: joueurs[0], murs: 10, pos: (5, 1)}, 
-                            {nom: joueurs[1], murs: 10, pos: (5, 9)}]
-            self.murs = {horizontaux: [], verticaux: []}
-
-        elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
-            self.joueurs = joueurs
-            self.murs =  {horizontaux: murs[horizontaux], verticaux: murs[verticaux]}
-
-        # pas certaine de mes init pour les murs...
-
      """ Docstring """
 
         if isinstance(joueurs[0], str):
@@ -154,12 +143,12 @@ class Quoridor:
         #PLACER JOUEUR
         #position  joueur 1
         for position in range(1):
-            x, y = dico["joueurs"][0]['pos']
+            self.position_X_j1, self.position_Y_j1 = dico["joueurs"][0]['pos']
             board_split[-2*y+20][x*4] = '1'
 
         #position joueur 2
         for position in range(1):
-            x, y = dico["joueurs"][1]['pos']
+            self.position_X_j2, self.position_Y_j2 = dico["joueurs"][1]['pos']
             board_split[-2*y+20][x*4] = '2'
 
         #PLACER MURS
