@@ -155,11 +155,15 @@ class Quoridor:
             """
 
     def état_partie(self):
+<<<<<<< HEAD
         """Cette fonction produit/retourne l'état actuel de la partie"""
 <<<<<<< HEAD
         état_jeu = {'joueurs': [{'nom': nom1, 'murs': n1, 'pos': (x1, y1)},{'nom': nom2, 'murs': n2, 'pos': (x2, y2)},],
             'murs': {'horizontaux': [...], 'verticaux': [...],}}
 =======
+=======
+        """Cette fonction produit/reourne l'état actuel de la partie"""
+>>>>>>> 2c68744ac8d71e65db72875e9beb873ed3ab0fc5
         état_jeu = {
             'joueurs': [
                 {'nom': self.joueurs[0][nom], 'murs': self.joueurs[0][murs], 'pos': self.joueurs[0][pos]},
