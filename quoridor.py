@@ -84,31 +84,13 @@ class Quoridor:
         elif len(joueurs) > 2:
             raise QuoridorError("seulement 2 joueurs acceptés")
         
-        if isinstance(joueurs[0], str):
-            self.état = {'état quelconque'}
-            self.nom_joueur1 = joueurs[0]
-            self.nom_joueur2 = joueurs[1]
-            self.nb_murs_restant_j1 = 10
-            self.nb_murs_restant_j2 = 10
-            self.position_X_j1 = 5
-            self.position_Y_j1 = 1
-            self.position_X_j2 = 5
-            self.position_Y_j2 = 9
-        if isinstance(joueurs[0], dict):
-            self.nom_joueur1 = joueurs[0].get('nom')[0]
-            self.nom_joueur2 = joueurs[1].get('nom')[1]
-            self.nb_murs_restant_j1 = joueurs[0].get('murs')[0]
-            self.nb_murs_restant_j2 = joueurs[1].get('murs')[1]
-            self.position_X_j1 = joueurs[0].get('pos')[0]
-            self.position_Y_j1 = joueurs[0].get('pos')[1]
-            self.position_X_j2 = joueurs[1].get('pos')[0]
-            self.position_Y_j2 = joueurs[1].get('pos')[1]
-        if murs == None:
-            self.murs_horizontaux = []   
-            self.murs_verticaux = []
-        else:   
-            self.murs_horizontaux = murs.get('horizontaux')
-            self.murs_verticaux = murs.get('verticaux')
+        if isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
+            self.joueurs = [{nom: joueurs[0], murs: 10, pos: (5, 1)}, 
+                            {nom: joueurs[1], murs: 10, pos: (5, 9)}]
+            self.murs = {horizontaux: [], verticaux: []}
+
+        elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
+            self.joueurs = joueurs
 
     def __str__(self):
 
