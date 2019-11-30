@@ -6,8 +6,6 @@ Pour ajouter Sandrine et Fred, settings, collaborators, ajouter leurs noms git h
 
 partie 3, notre classe va devoir jouer contre le robot du prof.
 '''
-
-
 import networkx as nx
 
 
@@ -77,7 +75,7 @@ def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
         graphe.add_edge((x, 1), 'B2')
 
     return graphe
-
+    
 
 ### Pour que l'erreur existe
 class QuoridorError(Exception):
@@ -105,7 +103,6 @@ class Quoridor:
 
         # pas certaine de mes init pour les murs...
 
-        
         """
         Initialiser une partie de Quoridor avec les joueurs et les murs spécifiés, 
         en s'assurant de faire une copie profonde de tout ce qui a besoin d'être copié.
