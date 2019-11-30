@@ -156,8 +156,22 @@ class Quoridor:
 
     def état_partie(self):
         """Cette fonction produit/retourne l'état actuel de la partie"""
+<<<<<<< HEAD
         état_jeu = {'joueurs': [{'nom': nom1, 'murs': n1, 'pos': (x1, y1)},{'nom': nom2, 'murs': n2, 'pos': (x2, y2)},],
             'murs': {'horizontaux': [...], 'verticaux': [...],}}
+=======
+        état_jeu = {
+            'joueurs': [
+                {'nom': self.joueurs[0][nom], 'murs': self.joueurs[0][murs], 'pos': self.joueurs[0][pos]},
+                {'nom': self.joueurs[1][nom], 'murs': self.joueurs[1][murs], 'pos': self.joueurs[1][pos]},
+            ],
+            'murs': {
+                'horizontaux': self.murs[horizontaux],
+                'verticaux': self.murs[verticaux],
+            }
+        }
+
+>>>>>>> fa7b107bc211dbd674a64144bc898692e882fef2
         état_jeu2 = copy.deepcopy(état_jeu)
 
         return état_jeu2
