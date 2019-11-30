@@ -93,7 +93,7 @@ class Quoridor:
         elif len(joueurs) > 2:
             raise QuoridorError("seulement 2 joueurs acceptés")
 
-     """ Docstring """
+        """ Docstring """
 
         if isinstance(joueurs[0], str):
             self.nom_joueur1 = joueurs[0]
@@ -121,7 +121,7 @@ class Quoridor:
             self.murs_verticaux = murs.get('verticaux')
 
     def __str__(self):
-        legende = 'Légende: 1: ' + idul +  ' 2:automate' + '\n'
+        legende = 'Légende: 1: ' + self.nom_joueur1 +  ' 2:' + self.nom_joueur2 + '\n'
 
         top = ' '*3 + '-'*35 + ' \n'
 
@@ -144,12 +144,12 @@ class Quoridor:
         #position  joueur 1
         for position in range(1):
             self.position_X_j1, self.position_Y_j1 = dico["joueurs"][0]['pos']
-            board_split[-2*y+20][x*4] = '1'
+            board_split[-2*self.position_Y_j1+20][self.position_X_j1*4] = '1'
 
         #position joueur 2
         for position in range(1):
             self.position_X_j2, self.position_Y_j2 = dico["joueurs"][1]['pos']
-            board_split[-2*y+20][x*4] = '2'
+            board_split[-2*self.position_Y_j2+20][self.position_X_j2*4] = '2'
 
         #PLACER MURS
         #placer murs horizontaux
