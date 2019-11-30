@@ -78,20 +78,17 @@ def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
     return graphe
 
 
-### Pour que l'erreur existe
-class QuoridorError(Exception):
-    pass
-
-
 class Quoridor:
 
     def __init__(self, joueurs, murs=None):
+        """
+        Produire la représentation en art ascii correspondant à l'état actuel de la partie. 
+        Cette représentation est la même que celle du TP précédent.
 
-        # Erreurs à soulever:
-        if not isinstance(joueurs, iter):
-            raise QuoridorError("'joueurs' doit être un itérable")
-        elif len(joueurs) > 2:
-            raise QuoridorError("seulement 2 joueurs acceptés")
+        :returns: la chaîne de caractères de la représentation.
+        """
+        
+
 
         """ Docstring """
 
@@ -169,23 +166,6 @@ class Quoridor:
         print(rep)
 
 
-    # La structure est là, mais les variables ont un autre nom...
-    
-    # donc, je croyais qu'on pouvait placer les bonhommes sur le damier avec self.joueurs, 
-    # mais non, ça va être avec étatjeu, qui, similairement à la 1re partie, va nous 
-    # retourner un dictionnaire sur l'état de la partie. 
-    # Il faut donc initialiser un dictionnaire dans étatjeu qui à la même forme que ce qu'on recevait 
-    # dans la 1re partie, sinon on va se faire chier à changer la fonction __str__
-
-        """
-        Produire la représentation en art ascii correspondant à l'état actuel de la partie. 
-        Cette représentation est la même que celle du TP précédent.
-
-        :returns: la chaîne de caractères de la représentation.
-        """
-        
-        
-
     def déplacer_jeton(self, joueur, position):
 
 
@@ -260,5 +240,15 @@ class Quoridor:
         :raises QuoridorError: si le numéro du joueur est autre que 1 ou 2.
         :raises QuoridorError: si un mur occupe déjà cette position.
         :raises QuoridorError: si la position est invalide pour cette orientation.
-        :raises QuoridorError: si le joueur a déjà placé tous ses murs.
-        """
+        :raises QuoridorError: si le joueur a déjà placé tous ses murs."""
+
+
+### Pour que l'erreur existe
+class QuoridorError(Exception, Quoridor):
+        
+        # Erreurs à soulever:
+        def __init__(self, joueurs, murs = None):
+            if not isinstance(joueurs, iter):
+                raise QuoridorError("'joueurs' doit être un itérable")
+            elif len(self.joueurs) > 2:
+                raise QuoridorError("seulement 2 joueurs acceptés")    
