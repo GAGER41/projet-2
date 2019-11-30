@@ -249,5 +249,5 @@ class QuoridorError(Exception, Quoridor):
         def __init__(self, joueurs, murs = None):
             if not isinstance(joueurs, iter):
                 raise QuoridorError("'joueurs' doit être un itérable")
-            elif len(self.joueurs) > 2:
+            elif len(joueurs) > 2:
                 raise QuoridorError("seulement 2 joueurs acceptés")    
