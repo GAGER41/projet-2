@@ -211,6 +211,7 @@ class Quoridor:
                 'verticaux': self.murs_verticaux,
             }
         }
+        return état_jeu
 
 
 
