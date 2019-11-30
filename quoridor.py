@@ -129,6 +129,31 @@ class Quoridor:
         :raises QuoridorError: si la position d'un mur est invalide.
         """
 
+        if isinstance(joueurs[0], str):
+            self.nom_joueur1 = joueurs[0]
+            self.nom_joueur2 = joueurs[1]
+            self.nb_murs_restant_j1 = 10
+            self.nb_murs_restant_j2 = 10
+            self.position_X_j1 = 5
+            self.position_Y_j1 = 1
+            self.position_X_j2 = 5
+            self.position_Y_j2 = 9
+        if isinstance(joueurs[0], dict):
+            self.nom_joueur1 = joueurs[0].get('nom')[0]
+            self.nom_joueur2 = joueurs[1].get('nom')[1]
+            self.nb_murs_restant_j1 = joueurs[0].get('murs')[0]
+            self.nb_murs_restant_j2 = joueurs[1].get('murs')[1]
+            self.position_X_j1 = joueurs[0].get('pos')[0]
+            self.position_Y_j1 = joueurs[0].get('pos')[1]
+            self.position_X_j2 = joueurs[1].get('pos')[0]
+            self.position_Y_j2 = joueurs[1].get('pos')[1]
+        if murs == None:
+            self.murs_horizontaux = []   
+            self.murs_verticaux = []
+        else:   
+            self.murs_horizontaux = murs.get('horizontaux')
+            self.murs_verticaux = murs.get('verticaux')
+
     def __str__(self):
     # La structure est là, mais les variables ont un autre nom...
     
