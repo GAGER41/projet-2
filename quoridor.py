@@ -7,14 +7,9 @@ import unittest
 import copy
 
 
-### Pour le Graphe, pas touche!
 def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
     """
     Crée le graphe des déplacements admissibles pour les joueurs.
-    :param joueurs: une liste des positions (x,y) des joueurs.
-    :param murs_horizontaux: une liste des positions (x,y) des murs horizontaux.
-    :param murs_verticaux: une liste des positions (x,y) des murs verticaux.
-    :returns: le graphe bidirectionnel (en networkX) des déplacements admissibles.
     """
     graphe = nx.DiGraph()
 
@@ -70,8 +65,12 @@ def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
     for x in range(1, 10):
         graphe.add_edge((x, 9), 'B1')
         graphe.add_edge((x, 1), 'B2')
-
     return graphe
+
+
+### Pour que l'erreur existe
+class QuoridorError(Exception):
+    pass
 
 
 class Quoridor:
@@ -79,11 +78,12 @@ class Quoridor:
     def __init__(self, joueurs, murs=None):
         """
         Produire la représentation en art ascii correspondant à l'état actuel de la partie. 
-        Cette représentation est la même que celle du TP précédent.
-
-        :returns: la chaîne de caractères de la représentation.
-        """
-
+        """  
+        if not isinstance(joueurs, iter):
+            raise QuoridorError("'joueurs' doit être un itérable")
+        elif len(joueurs) > 2:
+            raise QuoridorError("seulement 2 joueurs acceptés")
+        
         if isinstance(joueurs[0], str):
             self.état = {'état quelconque'}
             self.nom_joueur1 = joueurs[0]
@@ -109,8 +109,6 @@ class Quoridor:
         else:   
             self.murs_horizontaux = murs.get('horizontaux')
             self.murs_verticaux = murs.get('verticaux')
-
-    
 
     def __str__(self):
 
@@ -187,23 +185,6 @@ class Quoridor:
 
         return état_jeu2
 
-        """
-        Produire l'état actuel de la partie.
-
-        :returns: une copie de l'état actuel du jeu sous la forme d'un dictionnaire:
-    
-        où la clé 'nom' d'un joueur est associée à son nom, la clé 'murs' est associée 
-        au nombre de murs qu'il peut encore placer sur ce damier, et la clé 'pos' est 
-        associée à sa position sur le damier. Une position est représentée par un tuple 
-        de deux coordonnées x et y, où 1<=x<=9 et 1<=y<=9.
-
-        Les murs actuellement placés sur le damier sont énumérés dans deux listes de
-        positions (x, y). Les murs ont toujours une longueur de 2 cases et leur position
-        est relative à leur coin inférieur gauche. Par convention, un mur horizontal se
-        situe entre les lignes y-1 et y, et bloque les colonnes x et x+1. De même, un
-        mur vertical se situe entre les colonnes x-1 et x, et bloque les lignes y et y+1.
-        """
-
     def jouer_coup(self, joueur):
         """
         Pour le joueur spécifié, jouer automatiquement son meilleur coup pour l'état actuel 
@@ -218,7 +199,6 @@ class Quoridor:
     def partie_terminée(self):
         """
         Déterminer si la partie est terminée.
-        :returns: le nom du gagnant si la partie est terminée; False autrement.
         """
         if self.position_Y_j1 >= 10:
             return f'{self.nom_joueur1}'
@@ -226,6 +206,7 @@ class Quoridor:
             return f'{self.nom_joueur2}'
         else:
             return False
+
     def placer_mur(self, joueur, position, orientation):
         """
         Pour le joueur spécifié, placer un mur à la position spécifiée.
@@ -238,15 +219,6 @@ class Quoridor:
         :raises QuoridorError: si le joueur a déjà placé tous ses murs."""
 
 
-### Pour que l'erreur existe
-class QuoridorError(Exception, Quoridor):
-        
-        # Erreurs à soulever:
-        def __init__(self, joueurs, murs = None):
-            if not isinstance(joueurs, iter):
-                raise QuoridorError("'joueurs' doit être un itérable")
-            elif len(joueurs) > 2:
-                raise QuoridorError("seulement 2 joueurs acceptés")
 
 q = Quoridor(['fred', 'sand'])
 print(q)
