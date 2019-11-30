@@ -104,30 +104,7 @@ class Quoridor:
 
         # pas certaine de mes init pour les murs...
 
-        """
-        Initialiser une partie de Quoridor avec les joueurs et les murs spécifiés, 
-        en s'assurant de faire une copie profonde de tout ce qui a besoin d'être copié.
-
-        :param joueurs: un itérable de deux joueurs dont le premier est toujours celui qui 
-        débute la partie. Un joueur est soit une chaîne de caractères soit un dictionnaire. 
-        Dans le cas d'une chaîne, il s'agit du nom du joueur. Selon le rang du joueur dans 
-        l'itérable, sa position est soit (5,1) soit (5,9), et chaque joueur peut initialement
-        placer 10 murs. Dans le cas où l'argument est un dictionnaire, celui-ci doit contenir 
-        une clé 'nom' identifiant le joueur, une clé 'murs' spécifiant le nombre de murs qu'il 
-        peut encore placer, et une clé 'pos' qui spécifie sa position (x, y) actuelle.
-        
-        :param murs: un dictionnaire contenant une clé 'horizontaux' associée à la liste des
-        positions (x, y) des murs horizontaux, et une clé 'verticaux' associée à la liste des
-        positions (x, y) des murs verticaux. Par défaut, il n'y a aucun mur placé sur le jeu.
-
-        - fait :raises QuoridorError: si l'argument 'joueurs' n'est pas itérable. 
-        - fait :raises QuoridorError: si l'itérable de joueurs en contient plus de deux.
-        :raises QuoridorError: si le nombre de murs qu'un joueur peut placer est >10, ou négatif.
-        :raises QuoridorError: si la position d'un joueur est invalide.
-        :raises QuoridorError: si l'argument 'murs' n'est pas un dictionnaire lorsque présent.
-        :raises QuoridorError: si le total des murs placés et plaçables n'est pas égal à 20.
-        :raises QuoridorError: si la position d'un mur est invalide.
-        """
+     """ Docstring """
 
         if isinstance(joueurs[0], str):
             self.nom_joueur1 = joueurs[0]
@@ -155,6 +132,54 @@ class Quoridor:
             self.murs_verticaux = murs.get('verticaux')
 
     def __str__(self):
+        legende = 'Légende: 1: ' + idul +  ' 2:automate' + '\n'
+
+        top = ' '*3 + '-'*35 + ' \n'
+
+        temp_middle = []
+        empty_mid_section = ' '*2 + '|' + ' '.join(['   ']*9) + '|\n'
+
+        for i in list(range(1, 10))[::-1]:
+            temp_middle.append(f'{i} |' + ' '.join([' . ']*9) + '|\n')
+
+        middle = empty_mid_section.join(temp_middle)
+
+        bot = '--|' + '-'*35 + ' \n'
+        bot += '  | ' + '   '.join([f'{i}' for i in range(1, 10)])
+        board = ''.join([legende, top, middle, bot])
+
+        #Mettre le damier en liste
+        board_split = [list(ligne) for ligne in board.split('\n')]
+
+        #PLACER JOUEUR
+        #position  joueur 1
+        for position in range(1):
+            x, y = dico["joueurs"][0]['pos']
+            board_split[-2*y+20][x*4] = '1'
+
+        #position joueur 2
+        for position in range(1):
+            x, y = dico["joueurs"][1]['pos']
+            board_split[-2*y+20][x*4] = '2'
+
+        #PLACER MURS
+        #placer murs horizontaux
+        for placement in range(len(dico["murs"]["horizontaux"])):
+            x, y = dico["murs"]["horizontaux"][placement]
+            for variable in range(7):
+                board_split[-2*y+21][4*x-1+variable] = '-'
+
+        #placer murs verticaux
+        for placement in range(len(dico["murs"]["verticaux"])):
+            x, y = dico["murs"]["verticaux"][placement]
+            for variable in range(3):
+                board_split[-2*y+18+variable][4*x-2] = '|'
+
+        #Remettre le damier en str
+        rep = '\n'.join([''.join(elem) for elem in board_split])
+        print(rep)
+
+
     # La structure est là, mais les variables ont un autre nom...
     
     # donc, je croyais qu'on pouvait placer les bonhommes sur le damier avec self.joueurs, 
@@ -169,54 +194,8 @@ class Quoridor:
 
         :returns: la chaîne de caractères de la représentation.
         """
-        #nom1 = self.joueurs[0]['nom']
-        #nom2 = self.joueurs[1]['nom']
-        damier = ''
-        pligne = f'Légende: 1 = {nom1}, 2 = {nom2} \n' + '   ' + 35*'-' + '\n'
-        for i in range(9, 0, -1):
-            if i != 1:
-                damier += f'{i}' +  ' | .' + 8*'   .' + ' |' '\n' + '  |' + 35* ' ' + '| \n'
-            elif i == 1:
-                damier += f'{i}' +  ' | .' + 8*'   .' + ' |' '\n'
-        damier += '--|' + 35*'-' + '\n'
-        dligne = '  | '
-        for i in range(1, 10):
-            if i != 9:
-                dligne += f'{i}' + 3*' '
-            elif i == 9:
-                dligne += '9'
-        damier += dligne
-        damier = list(damier.splitlines())
-        for i in range(len(damier)):
-            damier[i] = list(damier[i])
         
-        ### bonhommes
-
-        x1 = dic['état']["joueurs"][0]["pos"][0]
-        y1 = dic['état']["joueurs"][0]["pos"][1]
-        x2 = dic['état']["joueurs"][1]["pos"][0]
-        y2 = dic['état']["joueurs"][1]["pos"][1]
-
-        damier[18-2*y1][4*x1] = '1'
-        damier[18-2*y2][4*x2] = '2'
-
-        ### murs horizontaux
-
-        for i in range(len(dic['état']["murs"]["horizontaux"])):
-            xh = dic['état']["murs"]["horizontaux"][i][0]
-            yh = dic['état']["murs"]["horizontaux"][i][1]
-            damier[19-2*yh][4*xh-1 : 4*xh+6] = '-------'
-
-        ### murs verticaux
-
-        for i in  range(len(dic['état']["murs"]["verticaux"])):
-            xv = dic['état']["murs"]["verticaux"][i][0]
-            yv = dic['état']["murs"]["verticaux"][i][1]
-            damier[18-2*yv][4*xv-2] = '|'
-            damier[17-2*yv][4*xv-2] = '|'
-            damier[16-2*yv][4*xv-2] = '|'
-
-        return(pligne + '\n'.join(''.join(i for i in ligne) for ligne in damier) + '\n')
+        
 
     def déplacer_jeton(self, joueur, position):
             """
