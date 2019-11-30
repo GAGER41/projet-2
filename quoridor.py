@@ -79,11 +79,20 @@ class Quoridor:
     def __init__(self, joueurs, murs=None):
         """
         Produire la représentation en art ascii correspondant à l'état actuel de la partie. 
+<<<<<<< HEAD
         Cette représentation est la même que celle du TP précédent.
 
         :returns: la chaîne de caractères de la représentation.
         """
 
+=======
+        """  
+        if not isinstance(joueurs, iter):
+            raise QuoridorError("'joueurs' doit être un itérable")
+        elif len(joueurs) > 2:
+            raise QuoridorError("seulement 2 joueurs acceptés")
+        
+>>>>>>> 0b50a22288a55c6fede60a39fefca8e4edc5372d
         if isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
             self.joueurs = [{nom: joueurs[0], murs: 10, pos: (5, 1)}, 
                             {nom: joueurs[1], murs: 10, pos: (5, 9)}]
@@ -91,14 +100,13 @@ class Quoridor:
 
         elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
             self.joueurs = joueurs
-    
 
     def __str__(self):
 
-        legende = 'Légende: 1: ' + idul +  ' 2:automate' + '\n'
+        dico = self.état['joueurs'][0]
 
+        legende = 'Légende: 1: ' + self.nom_joueur1 +  ' 2:' + self.nom_joueur2 + '\n'
         top = ' '*3 + '-'*35 + ' \n'
-
         temp_middle = []
         empty_mid_section = ' '*2 + '|' + ' '.join(['   ']*9) + '|\n'
 
@@ -106,7 +114,6 @@ class Quoridor:
             temp_middle.append(f'{i} |' + ' '.join([' . ']*9) + '|\n')
 
         middle = empty_mid_section.join(temp_middle)
-
         bot = '--|' + '-'*35 + ' \n'
         bot += '  | ' + '   '.join([f'{i}' for i in range(1, 10)])
         board = ''.join([legende, top, middle, bot])
@@ -117,13 +124,13 @@ class Quoridor:
         #PLACER JOUEUR
         #position  joueur 1
         for position in range(1):
-            x, y = dico["joueurs"][0]['pos']
-            board_split[-2*y+20][x*4] = '1'
+            self.position_X_j1, self.position_Y_j1 = dico["joueurs"][0]['pos']
+            board_split[-2*self.position_Y_j1+20][self.position_X_j1*4] = '1'
 
         #position joueur 2
         for position in range(1):
-            x, y = dico["joueurs"][1]['pos']
-            board_split[-2*y+20][x*4] = '2'
+            self.position_X_j2, self.position_Y_j2 = dico["joueurs"][1]['pos']
+            board_split[-2*self.position_Y_j2+20][self.position_X_j2*4] = '2'
 
         #PLACER MURS
         #placer murs horizontaux
