@@ -98,7 +98,7 @@ class Quoridor:
             self.joueurs = joueurs
 
     def __str__(self):
-        dico = self.état['joueurs'][0]
+        
 
         legende = 'Légende: 1: ' + self.joueurs[0]['nom'] +  ' 2:' + self.joueurs[0]['nom'] + '\n'
         top = ' '*3 + '-'*35 + ' \n'
@@ -158,14 +158,15 @@ class Quoridor:
 
     def état_partie(self):
         """Cette fonction produit/retourne l'état actuel de la partie"""
+        
         état_jeu = {
             'joueurs': [
-                {'nom': self.joueurs[0][nom], 'murs': self.joueurs[0][murs], 'pos': self.joueurs[0][pos]},
-                {'nom': self.joueurs[1][nom], 'murs': self.joueurs[1][murs], 'pos': self.joueurs[1][pos]},
+                {'nom': self.joueurs[0]['nom'], 'murs': self.joueurs[0]['murs'], 'pos': self.joueurs[0]['pos']},
+                {'nom': self.joueurs[1]['nom'], 'murs': self.joueurs[1]['murs'], 'pos': self.joueurs[1]['pos']},
             ],
             'murs': {
-                'horizontaux': self.murs[horizontaux],
-                'verticaux': self.murs[verticaux],
+                'horizontaux': self.murs['horizontaux'],
+                'verticaux': self.murs['verticaux'],
             }
         }
         état_jeu2 = copy.deepcopy(état_jeu)
@@ -205,6 +206,3 @@ class Quoridor:
         :raises QuoridorError: si la position est invalide pour cette orientation.
         :raises QuoridorError: si le joueur a déjà placé tous ses murs."""
 
-
-q = Quoridor(['fred', 'sand'])
-print(q)
