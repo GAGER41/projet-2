@@ -156,7 +156,7 @@ class Quoridor:
             """
 
     def état_partie(self):
-        """Cette fonction produit/retourne l'état actuel de la partie"""
+        """Cette fonction produit/reourne l'état actuel de la partie"""
         état_jeu = {
             'joueurs': [
                 {'nom': self.joueurs[0][nom], 'murs': self.joueurs[0][murs], 'pos': self.joueurs[0][pos]},
