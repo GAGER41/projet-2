@@ -6,6 +6,10 @@ import networkx as nx
 import unittest
 import copy
 
+### Pour que l'erreur existe
+class QuoridorError(Exception):
+    pass
+            
 
 ### Pour le Graphe, pas touche!
 def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
@@ -77,12 +81,11 @@ def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
 class Quoridor:
 
     def __init__(self, joueurs, murs=None):
-        """
-        Produire la représentation en art ascii correspondant à l'état actuel de la partie. 
-        Cette représentation est la même que celle du TP précédent.
 
-        :returns: la chaîne de caractères de la représentation.
-        """
+        if not isinstance(joueurs, iter):
+            raise QuoridorError("'joueurs' doit être un itérable")
+        elif len(joueurs) > 2:
+            raise QuoridorError("seulement 2 joueurs acceptés")
 
         if isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
             self.joueurs = [{nom: joueurs[0], murs: 10, pos: (5, 1)}, 
@@ -91,6 +94,7 @@ class Quoridor:
 
         elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
             self.joueurs = joueurs
+            self.murs = murs
     
 
     def __str__(self):
@@ -220,15 +224,7 @@ class Quoridor:
         :raises QuoridorError: si le joueur a déjà placé tous ses murs."""
 
 
-### Pour que l'erreur existe
-class QuoridorError(Exception, Quoridor):
-        
-        # Erreurs à soulever:
-        def __init__(self, joueurs, murs = None):
-            if not isinstance(joueurs, iter):
-                raise QuoridorError("'joueurs' doit être un itérable")
-            elif len(joueurs) > 2:
-                raise QuoridorError("seulement 2 joueurs acceptés")
+
 
 q = Quoridor(['fred', 'sand'])
 print(q)
