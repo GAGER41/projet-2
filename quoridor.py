@@ -167,6 +167,8 @@ class Quoridor:
 
 
     def déplacer_jeton(self, joueur, position):
+
+
             """
             Pour le joueur spécifié, déplacer son jeton à la position spécifiée.
 
@@ -178,21 +180,25 @@ class Quoridor:
             """
 
     def état_partie(self):
+
+        état_jeu = {
+            'joueurs': [
+                {'nom': self.nom_joueur1, 'murs': self.nb_murs_restant_j1, 'pos': (self.position_X_j1, self.position_Y_j1)},
+                {'nom': self.nom_joueur2, 'murs': self.nb_murs_restant_j2, 'pos': (self.position_X_j2, self.position_Y_j2)},
+            ],
+            'murs': {
+                'horizontaux': self.murs_horizontaux,
+                'verticaux': self.murs_verticaux,
+            }
+        }
+
+
+
         """
         Produire l'état actuel de la partie.
 
         :returns: une copie de l'état actuel du jeu sous la forme d'un dictionnaire:
-        {
-            'joueurs': [
-                {'nom': nom1, 'murs': n1, 'pos': (x1, y1)},
-                {'nom': nom2, 'murs': n2, 'pos': (x2, y2)},
-            ],
-            'murs': {
-                'horizontaux': [...],
-                'verticaux': [...],
-            }
-        }
-        
+    
         où la clé 'nom' d'un joueur est associée à son nom, la clé 'murs' est associée 
         au nombre de murs qu'il peut encore placer sur ce damier, et la clé 'pos' est 
         associée à sa position sur le damier. Une position est représentée par un tuple 
