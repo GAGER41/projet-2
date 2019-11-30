@@ -159,12 +159,12 @@ class Quoridor:
         """Cette fonction produit/retourne l'état actuel de la partie"""
         état_jeu = {
             'joueurs': [
-                {'nom': nom1, 'murs': n1, 'pos': (x1, y1)},
-                {'nom': nom2, 'murs': n2, 'pos': (x2, y2)},
+                {'nom': self.joueurs[0][nom], 'murs': self.joueurs[0][murs], 'pos': self.joueurs[0][pos]},
+                {'nom': self.joueurs[1][nom], 'murs': self.joueurs[1][murs], 'pos': self.joueurs[1][pos]},
             ],
             'murs': {
-                'horizontaux': [...],
-                'verticaux': [...],
+                'horizontaux': self.murs[horizontaux],
+                'verticaux': self.murs[verticaux],
             }
         }
 
