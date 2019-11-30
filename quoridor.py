@@ -119,26 +119,28 @@ class Quoridor:
         #PLACER JOUEUR
         #position  joueur 1
         for position in range(1):
-            self.position_X_j1, self.position_Y_j1 = dico["joueurs"][0]['pos']
-            board_split[-2*self.position_Y_j1+20][self.position_X_j1*4] = '1'
+            self.joueurs[0]["pos"][0], self.joueurs[0]["pos"][1] = dico["joueurs"][0]['pos']
+            board_split[-2*self.joueurs[0]["pos"][1]+20][self.joueurs[0]["pos"][0]*4] = '1'
 
         #position joueur 2
         for position in range(1):
-            self.joueurs[0]['pos'][0], self.joueurs[0]['pos'][1] = dico["joueurs"][1]['pos']
-            board_split[-2*self.joueurs[0]['pos'][1]+20][self.joueurs[0]['pos'][0]*4] = '2'
+            self.joueurs[1]['pos'][0], self.joueurs[1]['pos'][1] = dico["joueurs"][1]['pos']
+            board_split[-2*self.joueurs[1]['pos'][1]+20][self.joueurs[1]['pos'][0]*4] = '2'
 
         #PLACER MURS
         #placer murs horizontaux
         for placement in range(len(dico["murs"]["horizontaux"])):
-            self.joueurs[1]['pos'][0], self.joueurs[1]['pos'][1] = dico["murs"]["horizontaux"][placement]
-            for variable in range(7):
-                board_split[-2*self.joueurs[1]['pos'][1]+21][4*self.joueurs[1]['pos'][0]-1+variable] = '-'
+            for i in dico['murs']['horizontaux']:
+                self.murs['horizontaux'][i][0], self.murs['horizontaux'][i][0] = dico["murs"]["horizontaux"][placement]
+                for variable in range(7):
+                    board_split[-2*self.murs['horizontaux'][i][0]+21][4*self.murs['horizontaux'][i][0]-1+variable] = '-'
 
         #placer murs verticaux
         for placement in range(len(dico["murs"]["verticaux"])):
-            x, y = dico["murs"]["verticaux"][placement]
-            for variable in range(3):
-                board_split[-2*y+18+variable][4*x-2] = '|'
+            for i in dico['murs']['verticaux']:
+                self.murs['verticaux'][i][0], self.murs['verticaux'][i][1] = dico["murs"]["verticaux"][placement]
+                for variable in range(3):
+                    board_split[-2*self.murs['verticaux'][i][1]+18+variable][4*self.murs['verticaux'][i][0]-2] = '|'
 
         #Remettre le damier en str
         rep = '\n'.join([''.join(elem) for elem in board_split])
@@ -185,10 +187,10 @@ class Quoridor:
         """
         Déterminer si la partie est terminée.
         """
-        if self.self.joueurs[0]['pos'][1] >= 10:
-            return f'{self.nom_joueur1}'
-        if self.self.joueurs[1]['pos'][1] <= 0:
-            return f'{self.nom_joueur2}'
+        if état_jeu[joueurs][0]['pos'][1] == 10:
+            return f'{état_jeu[joueurs][0]['nom']}'
+        if état_jeu[joueurs][1]['pos'][1] == 0:
+            return f'{état_jeu[joueurs][1]['nom']}'
         else:
             return False
 
