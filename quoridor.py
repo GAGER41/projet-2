@@ -8,6 +8,7 @@ partie 3, notre classe va devoir jouer contre le robot du prof.
 '''
 import networkx as nx
 import unittest
+import copy
 
 
 ### Pour le Graphe, pas touche!
@@ -93,6 +94,7 @@ class Quoridor:
         """ Docstring """
 
         if isinstance(joueurs[0], str):
+            self.état = {'état quelconque'}
             self.nom_joueur1 = joueurs[0]
             self.nom_joueur2 = joueurs[1]
             self.nb_murs_restant_j1 = 10
@@ -117,7 +119,12 @@ class Quoridor:
             self.murs_horizontaux = murs.get('horizontaux')
             self.murs_verticaux = murs.get('verticaux')
 
+    
+
     def __str__(self):
+
+        dico = self.état['joueurs'][0]
+
         legende = 'Légende: 1: ' + self.nom_joueur1 +  ' 2:' + self.nom_joueur2 + '\n'
 
         top = ' '*3 + '-'*35 + ' \n'
@@ -191,9 +198,10 @@ class Quoridor:
                 'verticaux': self.murs_verticaux,
             }
         }
-        return état_jeu
 
+        état_jeu2 = copy.deepcopy(état_jeu)
 
+        return état_jeu2
 
         """
         Produire l'état actuel de la partie.
@@ -251,4 +259,7 @@ class QuoridorError(Exception, Quoridor):
             if not isinstance(joueurs, iter):
                 raise QuoridorError("'joueurs' doit être un itérable")
             elif len(joueurs) > 2:
-                raise QuoridorError("seulement 2 joueurs acceptés")    
+                raise QuoridorError("seulement 2 joueurs acceptés")
+
+q = Quoridor(['fred', 'sand'])
+print(q)
