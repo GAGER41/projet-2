@@ -7,6 +7,7 @@ Pour ajouter Sandrine et Fred, settings, collaborators, ajouter leurs noms git h
 partie 3, notre classe va devoir jouer contre le robot du prof.
 '''
 import networkx as nx
+import unittest
 
 
 ### Pour le Graphe, pas touche!
@@ -75,7 +76,7 @@ def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
         graphe.add_edge((x, 1), 'B2')
 
     return graphe
-    
+
 
 ### Pour que l'erreur existe
 class QuoridorError(Exception):
