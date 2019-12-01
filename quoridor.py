@@ -158,7 +158,13 @@ class Quoridor:
 
     def état_partie(self):
         """Cette fonction produit/retourne l'état actuel de la partie"""
-        
+
+        for i in range(1):
+            position = self.joueurs[i]['pos']
+            for pos in position:
+                if 1<=pos<=9:
+                    raise QuoridorError("Position out of range")
+                
         état_jeu = {
             'joueurs': [
                 {'nom': self.joueurs[0]['nom'], 'murs': self.joueurs[0]['murs'], 'pos': self.joueurs[0]['pos']},
@@ -169,6 +175,7 @@ class Quoridor:
                 'verticaux': self.murs['verticaux'],
             }
         }
+
         état_jeu2 = copy.deepcopy(état_jeu)
 
         return état_jeu2
