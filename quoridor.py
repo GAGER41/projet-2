@@ -6,6 +6,11 @@ import networkx as nx
 import unittest
 import copy
 
+
+def test_push(x):
+    pass
+
+
 ### Pour que l'erreur existe
 class QuoridorError(Exception):
     pass
