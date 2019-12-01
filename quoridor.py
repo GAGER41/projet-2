@@ -7,10 +7,6 @@ import unittest
 import copy
 
 
-def test_push(x):
-    pass
-
-
 ### Pour que l'erreur existe
 class QuoridorError(Exception):
     pass
@@ -83,6 +79,7 @@ def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
 
 
 class Quoridor:
+
     def __init__(self, joueurs, murs=None):
 
         if not isinstance(joueurs, iter):
@@ -90,7 +87,7 @@ class Quoridor:
         elif len(joueurs) > 2:
             raise QuoridorError("seulement 2 joueurs acceptés")
         
-        if isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
+        elif isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
             self.joueurs = [{nom: joueurs[0], murs: 10, pos: (5, 1)}, 
                             {nom: joueurs[1], murs: 10, pos: (5, 9)}]
             self.murs = {horizontaux: [], verticaux: []}
@@ -172,14 +169,24 @@ class Quoridor:
         print(rep)
 
     def déplacer_jeton(self, joueur, position):
-            """
-            Pour le joueur spécifié, déplacer son jeton à la position spécifiée.
-            :param joueur: un entier spécifiant le numéro du joueur (1 ou 2).
-            :param position: le tuple (x, y) de la position du jeton (1<=x<=9 et 1<=y<=9).
-            :raises QuoridorError: si le numéro du joueur est autre que 1 ou 2.
-            :raises QuoridorError: si la position est invalide (en dehors du damier).
-            :raises QuoridorError: si la position est invalide pour l'état actuel du jeu.
-            """
+
+        self.graphe = construire_graphe(
+            [joueur['pos'] for joueur in état['joueurs']], 
+            état['murs']['horizontaux'],
+            état['murs']['verticaux'])
+
+        # On doit s'assurer que le nombre qui représente le joueur est valide, que la position existe et est accessible
+        if joueur in {1, 2}:
+            if 0 < position[0] < 10 and 0 < position[1] < 10:
+                if position in list(self.graphe.successors(self.joueurs[joueur - 1]['pos'])):
+                    self.joueurs[joueur - 1]['pos'] = position
+                else:
+                    raise QuoridorError("Cette case n'est pas accessible")
+            else:
+                raise QuoridorError("Cette case n'existe pas")
+        else:
+            raise QuoridorError('Le numéro du joueur doit être 1 ou 2')
+
 
     def état_partie(self):
         """Cette fonction produit/retourne l'état actuel de la partie"""
@@ -192,30 +199,22 @@ class Quoridor:
         return {'joueurs': self.joueurs, 'murs': self.murs}
 
     def jouer_coup(self, joueur):
-        """
-        :param joueur: un entier spécifiant le numéro du joueur (1 ou 2).
-        :raises QuoridorError: si le numéro du joueur est autre que 1 ou 2.
-        :raises QuoridorError: si la partie est déjà terminée.
-        """
-# aller chercher le dictionnaire retourné par état jeu et créer un graphe avec
-# avec nx.shortestpath, déplacer pion vers 1e tuple retourné dans la liste du chemin.
 
-    '''
-    état = {"joueurs": [{"nom": "idul", "murs": 7, "pos": [5, 6]},
-                        {"nom": "automate", "murs": 3, "pos": [5, 7]}],
-            "murs": {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]],
-                    "verticaux": [[6, 2], [4, 4], [2, 5], [7, 5], [7, 7]]}}  
-    ## un dictionnaire comme dans la partie 1, qui décrit l'état du jeu. Construit par la méthode état_partie
+        self.graphe = construire_graphe(
+            [joueur['pos'] for joueur in état['joueurs']], 
+            état['murs']['horizontaux'],
+            état['murs']['verticaux'])
 
-    graphe = construire_graphe(
-    [joueur['pos'] for joueur in état['joueurs']], 
-    état['murs']['horizontaux'],
-    état['murs']['verticaux']
+        # On trouve le chemin le plus court et se déplace dans cette direction
+        if joueur in {1, 2}:
+            path = nx.shortest_path(self.graphe, self.joueur[joueur-1]['pos'], f'B{joueur}')
+            if self.partie_terminée() is False:
+                self.déplacer_jeton(joueur, chemin[1])
+            else:
+                raise QuoridorError('La partie est terminée')
+        else:
+            raise QuoridorError('Le numéro du joueur doit être 1 ou 2')
 
-    path = nx.shortest_path(graphe, (5,6), 'B1')
-
-    déplacer pion à path[0] avec méthode déplacer_jeton  en fonction du joueur choisi (1 ou 2)
-    '''
 
     def partie_terminée(self):
         """
