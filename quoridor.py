@@ -78,24 +78,44 @@ def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
 
 
 class Quoridor:
-
     def __init__(self, joueurs, murs=None):
-        """
-        Produire la représentation en art ascii correspondant à l'état actuel de la partie. 
-        Cette représentation est la même que celle du TP précédent."""
 
         if not isinstance(joueurs, iter):
             raise QuoridorError("'joueurs' doit être un itérable")
         elif len(joueurs) > 2:
             raise QuoridorError("seulement 2 joueurs acceptés")
-
+        
         if isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
             self.joueurs = [{nom: joueurs[0], murs: 10, pos: (5, 1)}, 
                             {nom: joueurs[1], murs: 10, pos: (5, 9)}]
             self.murs = {horizontaux: [], verticaux: []}
 
         elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
-            self.joueurs = joueurs
+
+            if joueurs[joueurs][0][murs] or joueurs[joueurs][0][murs] < 0 or joueurs[joueurs][0][murs] or joueurs[joueurs][0][murs] >10:
+                raise QuoridorError('nombre de murs invalide')
+
+            elif joueurs[joueurs][0][pos][0] or joueurs[joueurs][0][pos][1] or joueurs[joueurs][1][pos][0] or joueurs[joueurs][1][pos][1] < 0 or joueurs[joueurs][0][pos][0] or joueurs[joueurs][0][pos][1] or joueurs[joueurs][1][pos][0] or joueurs[joueurs][1][pos][1] > 9:
+                raise QuoridorError('postion(s) invalide(s)')
+
+            elif not isinstance(joueurs[murs], dict):
+                raise QuoridorError("l'argument 'murs' n'est pas un dictionnaire")
+
+            elif joueurs[joueurs][0][murs] + joueurs[joueurs][1][murs] + len(joueurs[murs][horizontaux]) + len(joueurs[murs][verticaux]) != 20:
+                raise QuoridorError("le total des murs placés et plaçables n'est pas égal à 20")
+
+
+        '''
+            Structure d'un dictionnaire qui décrit l'état du jeu, pour aider à construire les exceptions
+        joueurs = {"joueurs": [{"nom": "idul", "murs": 7, "pos": [5, 6]},
+                             {"nom": "automate", "murs": 3, "pos": [5, 7]}],
+                   "murs": {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]],
+                            "verticaux": [[6, 2], [4, 4], [2, 5], [7, 5], [7, 7]]}}  
+
+        :raises QuoridorError: si la position d'un mur est invalide:   <- dernière erreur à construire avec elif
+            pour les murs horizontaux, nous avons donc les contraintes 1 ≤ 𝑥 ≤ 8  et  2 ≤ 𝑦 ≤ 9, 
+            mais que pour les murs verticaux, elles sont plutôt 2 ≤ 𝑥 ≤ 9  et  1 ≤ 𝑦 ≤ 8.
+        '''
 
     def __str__(self):
         
@@ -182,14 +202,29 @@ class Quoridor:
 
     def jouer_coup(self, joueur):
         """
-        Pour le joueur spécifié, jouer automatiquement son meilleur coup pour l'état actuel 
-        de la partie. Ce coup est soit le déplacement de son jeton, soit le placement d'un 
-        mur horizontal ou vertical.
-
         :param joueur: un entier spécifiant le numéro du joueur (1 ou 2).
         :raises QuoridorError: si le numéro du joueur est autre que 1 ou 2.
         :raises QuoridorError: si la partie est déjà terminée.
         """
+# aller chercher le dictionnaire retourné par état jeu et créer un graphe avec
+# avec nx.shortestpath, déplacer pion vers 1e tuple retourné dans la liste du chemin.
+
+    '''
+    état = {"joueurs": [{"nom": "idul", "murs": 7, "pos": [5, 6]},
+                        {"nom": "automate", "murs": 3, "pos": [5, 7]}],
+            "murs": {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]],
+                    "verticaux": [[6, 2], [4, 4], [2, 5], [7, 5], [7, 7]]}}  
+    ## un dictionnaire comme dans la partie 1, qui décrit l'état du jeu. Construit par la méthode état_partie
+
+    graphe = construire_graphe(
+    [joueur['pos'] for joueur in état['joueurs']], 
+    état['murs']['horizontaux'],
+    état['murs']['verticaux']
+
+    path = nx.shortest_path(graphe, (5,6), 'B1')
+
+    déplacer pion à path[0] avec méthode déplacer_jeton  en fonction du joueur choisi (1 ou 2)
+    '''
 
     def partie_terminée(self):
         """
