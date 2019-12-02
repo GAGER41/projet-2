@@ -2,24 +2,20 @@
 Projet servant à suivre une partie et avoir une fonction
 déterminant le meilleur coup possible
 '''
-import networkx as nx
 import unittest
 import copy
+import networkx as nx
 
 
 ### Pour que l'erreur existe
 class QuoridorError(Exception):
     pass
-            
+
 
 ### Pour le Graphe, pas touche!
 def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
     """
     Crée le graphe des déplacements admissibles pour les joueurs.
-    :param joueurs: une liste des positions (x,y) des joueurs.
-    :param murs_horizontaux: une liste des positions (x,y) des murs horizontaux.
-    :param murs_verticaux: une liste des positions (x,y) des murs verticaux.
-    :returns: le graphe bidirectionnel (en networkX) des déplacements admissibles.
     """
     graphe = nx.DiGraph()
 
@@ -79,8 +75,10 @@ def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
 
 
 class Quoridor:
+    '''Classe permettant à de jouer à Quorridor'''
 
     def __init__(self, joueurs, murs=None):
+        """Méthode d'initiation"""
 
         if not isinstance(joueurs, iter):
             raise QuoridorError("'joueurs' doit être un itérable")
@@ -117,19 +115,8 @@ class Quoridor:
             self.joueurs = joueurs
             self.murs = murs
 
-        '''
-            Structure d'un dictionnaire qui décrit l'état du jeu, pour aider à construire les exceptions
-        joueurs = {"joueurs": [{"nom": "idul", "murs": 7, "pos": [5, 6]},
-                             {"nom": "automate", "murs": 3, "pos": [5, 7]}],
-                   "murs": {"horizontaux": [[4, 4], [2, 6], [3, 8], [5, 8], [7, 8]],
-                            "verticaux": [[6, 2], [4, 4], [2, 5], [7, 5], [7, 7]]}}  
-
-        :raises QuoridorError: si la position d'un mur est invalide:   <- dernière erreur à construire avec elif
-        '''
-
     def __str__(self):
-        
-
+        '''Fonction qui donne le damier de jeu'''
         legende = 'Légende: 1: ' + self.joueurs[0]['nom'] +  ' 2:' + self.joueurs[0]['nom'] + '\n'
         top = ' '*3 + '-'*35 + ' \n'
         temp_middle = []
@@ -177,6 +164,7 @@ class Quoridor:
         print(rep)
 
     def déplacer_jeton(self, joueur, position):
+        '''Méthode qui détermine les déplacements possibles'''
 
         self.graphe = construire_graphe(
             [joueur['pos'] for joueur in état['joueurs']], 
@@ -195,7 +183,6 @@ class Quoridor:
         else:
             raise QuoridorError('Le numéro du joueur doit être 1 ou 2')
 
-
     def état_partie(self):
         """Cette fonction produit/retourne l'état actuel de la partie"""
         for i in range(1):
@@ -208,12 +195,11 @@ class Quoridor:
         return self.état
 
     def jouer_coup(self, joueur):
-
+        """Fonction qui détermine le meileur coup possible"""
         self.graphe = construire_graphe(
             [joueur['pos'] for joueur in état['joueurs']], 
             self.état['murs']['horizontaux'],
             self.état['murs']['verticaux'])
-
         # On trouve le chemin le plus court et se déplace dans cette direction
         if joueur in {1, 2}:
             path = nx.shortest_path(self.graphe, self.joueurs[joueur-1]['pos'], f'B{joueur}')
@@ -223,7 +209,6 @@ class Quoridor:
                 raise QuoridorError('La partie est terminée')
         else:
             raise QuoridorError('Le numéro du joueur doit être 1 ou 2')
-
 
     def partie_terminée(self):
         """
@@ -246,5 +231,3 @@ class Quoridor:
         :raises QuoridorError: si un mur occupe déjà cette position.
         :raises QuoridorError: si la position est invalide pour cette orientation.
         :raises QuoridorError: si le joueur a déjà placé tous ses murs."""
-
-
