@@ -88,13 +88,21 @@ class Quoridor:
 
         elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
 
-            if joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] < 0 or
-                joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] > 10:
+            if joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] < 0:
+                raise QuoridorError('nombre de murs invalide')
+            if joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] > 10:
                 raise QuoridorError('nombre de murs invalide')
 
-            elif joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] or joueurs['joueurs'][1]['pos'][0] or
-                joueurs['joueurs'][1]['pos'][1] < 0 or joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] or
-                joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] > 9:
+            elif joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] < 0:
+                raise QuoridorError('postion(s) invalide(s)')
+
+            elif joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] < 0:
+                raise QuoridorError('postion(s) invalide(s)')
+
+            elif joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] >9:
+                raise QuoridorError('postion(s) invalide(s)')
+
+            elif joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] > 9:
                 raise QuoridorError('postion(s) invalide(s)')
 
             elif not isinstance(murs, dict):
