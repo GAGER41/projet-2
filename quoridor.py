@@ -99,7 +99,7 @@ class Quoridor:
             elif joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] < 0:
                 raise QuoridorError('postion(s) invalide(s)')
 
-            elif joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] >9:
+            elif joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] > 9:
                 raise QuoridorError('postion(s) invalide(s)')
 
             elif joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] > 9:
@@ -127,7 +127,7 @@ class Quoridor:
     def __str__(self):
         '''Fonction qui donne le damier de jeu'''
         def afficher_damier_ascii(dico):
-            legende = 'Légende: 1: ' + self.joueurs[0]['nom'] +  ' 2:' + self.joueurs[1]['nom']  + '\n'
+            leg = 'Légende: 1: ' + self.joueurs[0]['nom'] + ' 2: ' + self.joueurs[1]['nom'] + '\n'
 
             top = ' '*3 + '-'*35 + ' \n'
 
@@ -141,7 +141,7 @@ class Quoridor:
 
             bot = '--|' + '-'*35 + ' \n'
             bot += '  | ' + '   '.join([f'{i}' for i in range(1, 10)])
-            board = ''.join([legende, top, middle, bot])
+            board = ''.join([leg, top, middle, bot])
 
             #Mettre le damier en liste
             board_split = [list(ligne) for ligne in board.split('\n')]
@@ -234,7 +234,9 @@ class Quoridor:
         return False
 
     def placer_mur(self, joueur, position, orientation):
-
+        """
+        Placer les murs
+        """
         if joueur in {1, 2}:
             if self.joueurs[joueur - 1]['murs'] != 0:
                 self.joueurs[joueur - 1]['murs'] -= 1
@@ -242,8 +244,7 @@ class Quoridor:
                 raise QuoridorError("Ce joueur n'a plus de murs.")
         else:
             raise QuoridorError("Le numéro du joueur doit être 1 ou 2.")
-
-        # murs horizontaux  
+        # murs horizontaux
         if orientation == 'horizontal':
             if 1 > position[0] > 8 or 2 > position[1] > 9:
                 raise QuoridorError('Impossible de placer un mur à cet endroit')
