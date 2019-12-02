@@ -122,7 +122,7 @@ class Quoridor:
             self.murs = murs
             self.état = état
             self.graphe = graphe
-    self.état_partie()
+        self.état_partie()
 
     def __str__(self):
         '''Fonction qui donne le damier de jeu'''
