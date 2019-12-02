@@ -228,8 +228,13 @@ class Quoridor:
     def partie_terminée(self):
         """
         Déterminer si la partie est terminée.
-        Redéfinir : ne fonctionne pas
         """
+        '''if self.état['joueurs'][0]['pos'][1] == 9:
+            return f'{self.état['joueurs'][0]['nom']}'
+        if self.état['joueurs'][1]['pos'][1] == 1:
+            return f'{self.état["joueurs"][1]['nom']}'
+        else:
+            return False'''
 
     def placer_mur(self, joueur, position, orientation):
         """
