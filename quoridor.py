@@ -2,12 +2,11 @@
 Projet servant à suivre une partie et avoir une fonction
 déterminant le meilleur coup possible
 '''
-import copy
 import networkx as nx
 
 
 class QuoridorError(Exception):
-### Pour que l'erreur existe    
+    '''Pour que l'erreur existe'''
     pass
 
 
@@ -84,7 +83,8 @@ class Quoridor:
         elif len(joueurs) > 2:
             raise QuoridorError("seulement 2 joueurs acceptés")
         elif isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
-            self.joueurs = [{'nom': joueurs[0], 'murs': 10, 'pos': (5, 1)}, {'nom': joueurs[1], 'murs': 10, 'pos': (5, 9)}]
+            self.joueurs = [{'nom': joueurs[0], 'murs': 10, 'pos': (5, 1)}, 
+            {'nom': joueurs[1], 'murs': 10, 'pos': (5, 9)}]
             self.murs = {'horizontaux': [], 'verticaux': []}
 
         elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
@@ -163,7 +163,7 @@ class Quoridor:
         '''Méthode qui détermine les déplacements possibles'''
 
         self.graphe = construire_graphe(
-            [joueur['pos'] for joueur in état['joueurs']], 
+            [joueur['pos'] for joueur in état['joueurs']],
             état['murs']['horizontaux'],
             état['murs']['verticaux'])
 
