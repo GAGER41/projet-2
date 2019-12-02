@@ -88,20 +88,16 @@ class Quoridor:
 
         elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
 
-            if joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] < 0 or joueurs['joueurs'][0]['murs'] 
-            or joueurs['joueurs'][0]['murs'] > 10:
+            if joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] < 0 or joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] > 10:
                 raise QuoridorError('nombre de murs invalide')
 
-            elif joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] or joueurs['joueurs'][1]['pos'][0]
-             or joueurs['joueurs'][1]['pos'][1] < 0 or joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1]
-              or joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] > 9:
+            elif joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] or joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] < 0 or joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] or joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] > 9:
                 raise QuoridorError('postion(s) invalide(s)')
 
             elif not isinstance(murs, dict):
                 raise QuoridorError("l'argument 'murs' n'est pas un dictionnaire")
 
-            elif joueurs['joueurs'][0]['murs'] + joueurs['joueurs'][1]['murs']
-             + len(joueurs['murs']['horizontaux']) + len(joueurs['murs']['verticaux']) != 20:
+            elif joueurs['joueurs'][0]['murs'] + joueurs['joueurs'][1]['murs'] + len(joueurs['murs']['horizontaux']) + len(joueurs['murs']['verticaux']) != 20:
                 raise QuoridorError("le total des murs placés et plaçables n'est pas égal à 20")
 
             for i in murs['horizontaux']:
@@ -113,9 +109,8 @@ class Quoridor:
                     raise QuoridorError("la position d'un mur est invalide")
             self.joueurs = joueurs
             self.murs = murs
-
-        self.état = {'joueurs':self.joueurs, 'murs':self.murs}
-        self.graphe = graphe
+            self.état = état
+            self.graphe = graphe
 
     def __str__(self):
         '''Fonction qui donne le damier de jeu'''
@@ -219,12 +214,13 @@ class Quoridor:
     def partie_terminée(self):
         """
         Déterminer si la partie est terminée.
-        if self.état['joueurs'][0]['pos'][1] == 9:
-            return f'{self.état['joueurs'][0]['nom']}'
-        if self.état['joueurs'][1]['pos'][1] == 1:
-            return f'{self.état["joueurs"][1]['nom']}'
+        """
+        if self.joueurs[0]['pos'][1] == 9:
+            return 'Le gagnant  est {}'.format(self.joueurs[0]['nom'])
+        if self.joueurs[1]['pos'][1] == 9:
+            return 'Le gagnant  est {}'.format(self.joueurs[1]['nom'])
         else:
-            return False"""
+            return False
 
     def placer_mur(self, joueur, position, orientation):
 
