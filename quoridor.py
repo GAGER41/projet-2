@@ -88,22 +88,22 @@ class Quoridor:
             raise QuoridorError("seulement 2 joueurs acceptés")
         
         elif isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
-            self.joueurs = [{nom: joueurs[0], murs: 10, pos: (5, 1)}, 
-                            {nom: joueurs[1], murs: 10, pos: (5, 9)}]
-            self.murs = {horizontaux: [], verticaux: []}
+            self.joueurs = [{'nom': joueurs[0], 'murs': 10, 'pos': (5, 1)}, 
+                            {'nom': joueurs[1], 'murs': 10, 'pos': (5, 9)}]
+            self.murs = {'horizontaux': [], 'verticaux': []}
 
         elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
 
             if joueurs[joueurs][0][murs] or joueurs[joueurs][0][murs] < 0 or joueurs[joueurs][0][murs] or joueurs[joueurs][0][murs] >10:
                 raise QuoridorError('nombre de murs invalide')
 
-            elif joueurs[joueurs][0][pos][0] or joueurs[joueurs][0][pos][1] or joueurs[joueurs][1][pos][0] or joueurs[joueurs][1][pos][1] < 0 or joueurs[joueurs][0][pos][0] or joueurs[joueurs][0][pos][1] or joueurs[joueurs][1][pos][0] or joueurs[joueurs][1][pos][1] > 9:
+            elif joueurs[joueurs][0]['pos'][0] or joueurs[joueurs][0]['pos'][1] or joueurs[joueurs][1]['pos'][0] or joueurs[joueurs][1]['pos'][1] < 0 or joueurs[joueurs][0]['pos'][0] or joueurs[joueurs][0]['pos'][1] or joueurs[joueurs][1]['pos'][0] or joueurs[joueurs][1]['pos'][1] > 9:
                 raise QuoridorError('postion(s) invalide(s)')
 
             elif not isinstance(joueurs[murs], dict):
                 raise QuoridorError("l'argument 'murs' n'est pas un dictionnaire")
 
-            elif joueurs[joueurs][0][murs] + joueurs[joueurs][1][murs] + len(joueurs[murs][horizontaux]) + len(joueurs[murs][verticaux]) != 20:
+            elif joueurs[joueurs][0][murs] + joueurs[joueurs][1][murs] + len(joueurs[murs]['horizontaux']) + len(joueurs[murs]['verticaux']) != 20:
                 raise QuoridorError("le total des murs placés et plaçables n'est pas égal à 20")
 
 
@@ -207,7 +207,7 @@ class Quoridor:
 
         # On trouve le chemin le plus court et se déplace dans cette direction
         if joueur in {1, 2}:
-            path = nx.shortest_path(self.graphe, self.joueur[joueur-1]['pos'], f'B{joueur}')
+            path = nx.shortest_path(self.graphe, self.joueurs[joueur-1]['pos'], f'B{joueur}')
             if self.partie_terminée() is False:
                 self.déplacer_jeton(joueur, chemin[1])
             else:
@@ -219,13 +219,8 @@ class Quoridor:
     def partie_terminée(self):
         """
         Déterminer si la partie est terminée.
+        Redéfinir : ne fonctionne pas
         """
-        if état_jeu[joueurs][0]['pos'][1] == 10:
-            return f'{état_jeu[joueurs][0]['nom']}'
-        if état_jeu[joueurs][1]['pos'][1] == 0:
-            return f'{état_jeu[joueurs][1]['nom']}'
-        else:
-            return False
 
     def placer_mur(self, joueur, position, orientation):
         """
