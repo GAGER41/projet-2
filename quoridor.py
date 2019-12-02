@@ -227,12 +227,49 @@ class Quoridor:
             return False"""
 
     def placer_mur(self, joueur, position, orientation):
-        """
-        Pour le joueur spécifié, placer un mur à la position spécifiée.
-        :param joueur: le numéro du joueur (1 ou 2).
-        :param position: le tuple (x, y) de la position du mur.
-        :param orientation: l'orientation du mur ('horizontal' ou 'vertical').
-        :raises QuoridorError: si le numéro du joueur est autre que 1 ou 2.
-        :raises QuoridorError: si un mur occupe déjà cette position.
-        :raises QuoridorError: si la position est invalide pour cette orientation.
-        :raises QuoridorError: si le joueur a déjà placé tous ses murs."""
+
+        if joueur in {1, 2}:
+            if self.joueurs[joueur - 1]['murs'] != 0:
+                self.joueurs[joueur - 1]['murs'] -= 1
+            else:
+                raise QuoridorError("Ce joueur n'a plus de murs.")
+        else:
+            raise QuoridorError("Le numéro du joueur doit être 1 ou 2.")
+
+        # murs horizontaux  
+        if orientation == 'horizontal':
+            if 1 > position[0] > 8 or 2 > position[1] > 9:
+                raise QuoridorError('Impossible de placer un mur à cet endroit')
+
+            elif position in self.murs['horizontaux']:
+                raise QuoridorError('Il y a déjà un mur à cet endroit')
+
+            elif (position[0] + 1, position[1]) in self.murs['horizontaux']:
+                raise QuoridorError('Il y a déjà un mur à cet endroit')
+
+            elif (position[0] - 1, position[1]) in self.murs['horizontaux']:
+                raise QuoridorError('Il y a déjà un mur à cet endroit')
+
+            elif (position[0] + 1, position[1] - 1) in self.murs['verticaux']:
+                raise QuoridorError('Un mur déjà placé bloque cet endroit')
+
+            self.murs['horizontaux'].append(position)
+
+        # murs verticaux
+        elif orientation == 'vertical':
+            if 2 > position[0] > 9 or 1 > position[1] > 8:
+                raise QuoridorError('Impossible de placer un mur à cet endroit')
+            
+            elif position in self.murs['verticaux']:
+                raise QuoridorError('Il y a déjà un mur à cet endroit')
+
+            elif (position[0], position[1] - 1) in self.murs['verticaux']:
+                raise QuoridorError('Il y a déjà un mur à cet endroit')
+
+            elif (position[0], position[1] + 1) in self.murs['verticaux']:
+                raise QuoridorError('Il y a déjà un mur à cet endroit')
+
+            elif (position[0] - 1, position[1] + 1) in self.murs['horizontaux']:
+                raise QuoridorError('Il y a déjà un mur à cet endroit')
+
+            self.murs['verticaux'].append(position)
