@@ -113,8 +113,9 @@ class Quoridor:
                     raise QuoridorError("la position d'un mur est invalide")
             self.joueurs = joueurs
             self.murs = murs
-            self.état = état
-            self.graphe = graphe
+
+        self.état = {'joueurs':self.joueurs, 'murs':self.murs}
+        self.graphe = graphe
 
     def __str__(self):
         '''Fonction qui donne le damier de jeu'''
@@ -209,7 +210,7 @@ class Quoridor:
         if joueur in {1, 2}:
             path = nx.shortest_path(self.graphe, self.joueurs[joueur-1]['pos'], f'B{joueur}')
             if self.partie_terminée() is False:
-                self.déplacer_jeton(joueur, chemin[1])
+                self.déplacer_jeton(joueur, path[1])
             else:
                 raise QuoridorError('La partie est terminée')
         else:
