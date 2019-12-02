@@ -7,7 +7,6 @@ import networkx as nx
 
 class QuoridorError(Exception):
     '''Pour que l'erreur existe'''
-    pass
 
 
 ### Pour le Graphe, pas touche!
@@ -75,7 +74,7 @@ def construire_graphe(joueurs, murs_horizontaux, murs_verticaux):
 class Quoridor:
     '''Classe permettant à de jouer à Quorridor'''
 
-    def __init__(self, joueurs, murs=None):
+    def __init__(self, joueurs, graphe, état, murs=None):
         """Méthode d'initiation"""
 
         if not isinstance(joueurs, iter):
@@ -83,8 +82,8 @@ class Quoridor:
         elif len(joueurs) > 2:
             raise QuoridorError("seulement 2 joueurs acceptés")
         elif isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
-            self.joueurs = [{'nom': joueurs[0], 'murs': 10, 'pos': (5, 1)}, 
-            {'nom': joueurs[1], 'murs': 10, 'pos': (5, 9)}]
+            self.joueurs = [{'nom': joueurs[0], 'murs': 10, 'pos': (5, 1)},
+                            {'nom': joueurs[1], 'murs': 10, 'pos': (5, 9)}]
             self.murs = {'horizontaux': [], 'verticaux': []}
 
         elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
@@ -110,6 +109,8 @@ class Quoridor:
                     raise QuoridorError("la position d'un mur est invalide")
             self.joueurs = joueurs
             self.murs = murs
+            self.état = état
+            self.graphe = graphe
 
     def __str__(self):
         '''Fonction qui donne le damier de jeu'''
@@ -208,13 +209,12 @@ class Quoridor:
     def partie_terminée(self):
         """
         Déterminer si la partie est terminée.
-        """
-        '''if self.état['joueurs'][0]['pos'][1] == 9:
+        if self.état['joueurs'][0]['pos'][1] == 9:
             return f'{self.état['joueurs'][0]['nom']}'
         if self.état['joueurs'][1]['pos'][1] == 1:
             return f'{self.état["joueurs"][1]['nom']}'
         else:
-            return False'''
+            return False"""
 
     def placer_mur(self, joueur, position, orientation):
         """
