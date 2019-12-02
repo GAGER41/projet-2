@@ -115,7 +115,7 @@ class Quoridor:
     def __str__(self):
         '''Fonction qui donne le damier de jeu'''
         def afficher_damier_ascii(dico):
-            legende = 'Légende: 1: ' + idul +  ' 2:automate' + '\n'
+            legende = 'Légende: 1: ' + self.joueurs[0]['nom'] +  ' 2:' + self.joueurs[1]['nom']  + '\n'
 
             top = ' '*3 + '-'*35 + ' \n'
 
