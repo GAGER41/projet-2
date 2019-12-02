@@ -108,8 +108,7 @@ class Quoridor:
             elif not isinstance(murs, dict):
                 raise QuoridorError("l'argument 'murs' n'est pas un dictionnaire")
 
-            elif joueurs['joueurs'][0]['murs'] + joueurs['joueurs'][1]['murs'] +
-                len(joueurs['murs']['horizontaux']) + len(joueurs['murs']['verticaux']) != 20:
+            elif joueurs['joueurs'][0]['murs'] + joueurs['joueurs'][1]['murs'] + len(joueurs['murs']['horizontaux']) + len(joueurs['murs']['verticaux']) != 20:
                 raise QuoridorError("le total des murs placés et plaçables n'est pas égal à 20")
 
             for i in murs['horizontaux']:
