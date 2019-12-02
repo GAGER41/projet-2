@@ -111,6 +111,7 @@ class Quoridor:
             self.murs = murs
             self.état = état
             self.graphe = graphe
+    self.état_partie()
 
     def __str__(self):
         '''Fonction qui donne le damier de jeu'''
@@ -169,9 +170,9 @@ class Quoridor:
         '''Méthode qui détermine les déplacements possibles'''
 
         self.graphe = construire_graphe(
-            [joueur['pos'] for joueur in état['joueurs']],
-            état['murs']['horizontaux'],
-            état['murs']['verticaux'])
+            [joueur['pos'] for joueur in self.état_partie()['joueurs']],
+            self.état_partie()['murs']['horizontaux'],
+            self.état_partie()['murs']['verticaux'])
 
         # On doit s'assurer que le nombre qui représente le joueur est valide, que la position existe et est accessible
         if joueur in {1, 2}:
@@ -198,7 +199,7 @@ class Quoridor:
     def jouer_coup(self, joueur):
         """Fonction qui détermine le meileur coup possible"""
         self.graphe = construire_graphe(
-            [joueur['pos'] for joueur in état['joueurs']],
+            [joueur['pos'] for joueur in self.état_partie()['joueurs']],
             self.état['murs']['horizontaux'],
             self.état['murs']['verticaux'])
         # On trouve le chemin le plus court et se déplace dans cette direction
