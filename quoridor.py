@@ -184,7 +184,8 @@ class Quoridor:
             self.état_partie()['murs']['horizontaux'],
             self.état_partie()['murs']['verticaux'])
 
-        # On doit s'assurer que le nombre qui représente le joueur est valide, que la position existe et est accessible
+        # On doit s'assurer que le nombre qui représente le joueur est valide
+        # que la position existe et est accessible
         if joueur in {1, 2}:
             if 0 < position[0] < 10 and 0 < position[1] < 10:
                 if position in list(self.graphe.successors(self.joueurs[joueur - 1]['pos'])):
