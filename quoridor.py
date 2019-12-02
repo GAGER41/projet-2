@@ -205,7 +205,7 @@ class Quoridor:
         if joueur in {1, 2}:
             path = nx.shortest_path(self.graphe, self.joueurs[joueur-1]['pos'], f'B{joueur}')
             if self.partie_terminée() is False:
-                self.déplacer_jeton(joueur, chemin[1])
+                self.déplacer_jeton(joueur, path[1])
             else:
                 raise QuoridorError('La partie est terminée')
         else:
@@ -214,12 +214,13 @@ class Quoridor:
     def partie_terminée(self):
         """
         Déterminer si la partie est terminée.
-        if self.état['joueurs'][0]['pos'][1] == 9:
-            return f'{self.état['joueurs'][0]['nom']}'
-        if self.état['joueurs'][1]['pos'][1] == 1:
-            return f'{self.état["joueurs"][1]['nom']}'
+        """
+        if self.joueurs[0]['pos'][1] == 9:
+            return 'Le gagnant  est {}'.format(self.joueurs[0]['nom'])
+        if self.joueurs[1]['pos'][1] == 9:
+            return 'Le gagnant  est {}'.format(self.joueurs[1]['nom'])
         else:
-            return False"""
+            return False
 
     def placer_mur(self, joueur, position, orientation):
         """
