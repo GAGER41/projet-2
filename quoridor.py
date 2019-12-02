@@ -94,18 +94,28 @@ class Quoridor:
 
         elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
 
-            if joueurs[joueurs][0][murs] or joueurs[joueurs][0][murs] < 0 or joueurs[joueurs][0][murs] or joueurs[joueurs][0][murs] >10:
+            if joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] < 0 or joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] >10:
                 raise QuoridorError('nombre de murs invalide')
 
-            elif joueurs[joueurs][0]['pos'][0] or joueurs[joueurs][0]['pos'][1] or joueurs[joueurs][1]['pos'][0] or joueurs[joueurs][1]['pos'][1] < 0 or joueurs[joueurs][0]['pos'][0] or joueurs[joueurs][0]['pos'][1] or joueurs[joueurs][1]['pos'][0] or joueurs[joueurs][1]['pos'][1] > 9:
+            elif joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] or joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] < 0 or joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] or joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] > 9:
                 raise QuoridorError('postion(s) invalide(s)')
 
-            elif not isinstance(joueurs[murs], dict):
+            elif not isinstance(murs, dict):
                 raise QuoridorError("l'argument 'murs' n'est pas un dictionnaire")
 
-            elif joueurs[joueurs][0][murs] + joueurs[joueurs][1][murs] + len(joueurs[murs]['horizontaux']) + len(joueurs[murs]['verticaux']) != 20:
+            elif joueurs['joueurs'][0]['murs'] + joueurs['joueurs'][1]['murs'] + len(joueurs['murs']['horizontaux']) + len(joueurs['murs']['verticaux']) != 20:
                 raise QuoridorError("le total des murs placés et plaçables n'est pas égal à 20")
 
+            for i in murs['horizontaux']:
+                if 1 > i[0] > 8 or 2 > i[1] > 9:
+                    raise QuoridorError("la position d'un mur est invalide")
+
+            for i in murs['verticaux']:
+                if 2 > i[0] > 9 or 1 > i[1] > 8:
+                    raise QuoridorError("la position d'un mur est invalide")
+            
+            self.joueurs = joueurs
+            self.murs = murs
 
         '''
             Structure d'un dictionnaire qui décrit l'état du jeu, pour aider à construire les exceptions
@@ -115,8 +125,6 @@ class Quoridor:
                             "verticaux": [[6, 2], [4, 4], [2, 5], [7, 5], [7, 7]]}}  
 
         :raises QuoridorError: si la position d'un mur est invalide:   <- dernière erreur à construire avec elif
-            pour les murs horizontaux, nous avons donc les contraintes 1 ≤ 𝑥 ≤ 8  et  2 ≤ 𝑦 ≤ 9, 
-            mais que pour les murs verticaux, elles sont plutôt 2 ≤ 𝑥 ≤ 9  et  1 ≤ 𝑦 ≤ 8.
         '''
 
     def __str__(self):
@@ -195,15 +203,16 @@ class Quoridor:
             for pos in position:
                 if not 1<=pos<=9:
                     raise QuoridorError("Position out of range")
-
-        return {'joueurs': self.joueurs, 'murs': self.murs}
+                
+        self.état = {'joueurs': self.joueurs, 'murs': self.murs}
+        return self.état
 
     def jouer_coup(self, joueur):
 
         self.graphe = construire_graphe(
             [joueur['pos'] for joueur in état['joueurs']], 
-            état['murs']['horizontaux'],
-            état['murs']['verticaux'])
+            self.état['murs']['horizontaux'],
+            self.état['murs']['verticaux'])
 
         # On trouve le chemin le plus court et se déplace dans cette direction
         if joueur in {1, 2}:
@@ -232,4 +241,5 @@ class Quoridor:
         :raises QuoridorError: si un mur occupe déjà cette position.
         :raises QuoridorError: si la position est invalide pour cette orientation.
         :raises QuoridorError: si le joueur a déjà placé tous ses murs."""
+
 
