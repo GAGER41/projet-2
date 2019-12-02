@@ -156,7 +156,6 @@ class Quoridor:
             for position in range(1):
                 x, y = dico["joueurs"][1]['pos']
                 board_split[-2*y+20][x*4] = '2'
-
             #PLACER MURS
             #placer murs horizontaux
             for placement in range(len(dico["murs"]["horizontaux"])):
@@ -267,7 +266,6 @@ class Quoridor:
         elif orientation == 'vertical':
             if 2 > position[0] > 9 or 1 > position[1] > 8:
                 raise QuoridorError('Impossible de placer un mur à cet endroit')
-            
             elif position in self.murs['verticaux']:
                 raise QuoridorError('Il y a déjà un mur à cet endroit')
 
