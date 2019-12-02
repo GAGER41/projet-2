@@ -114,7 +114,7 @@ class Quoridor:
 
     def __str__(self):
         '''Fonction qui donne le damier de jeu'''
-       def afficher_damier_ascii(dico):
+        def afficher_damier_ascii(dico):
             legende = 'Légende: 1: ' + idul +  ' 2:automate' + '\n'
 
             top = ' '*3 + '-'*35 + ' \n'
@@ -162,7 +162,7 @@ class Quoridor:
             rep = '\n'.join([''.join(elem) for elem in board_split])
             print(rep)
 
-            
+
         afficher_damier_ascii(self.état_partie())
 
     def déplacer_jeton(self, joueur, position):
