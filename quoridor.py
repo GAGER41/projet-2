@@ -2,13 +2,12 @@
 Projet servant à suivre une partie et avoir une fonction
 déterminant le meilleur coup possible
 '''
-import unittest
 import copy
 import networkx as nx
 
 
-### Pour que l'erreur existe
 class QuoridorError(Exception):
+### Pour que l'erreur existe    
     pass
 
 
@@ -84,15 +83,13 @@ class Quoridor:
             raise QuoridorError("'joueurs' doit être un itérable")
         elif len(joueurs) > 2:
             raise QuoridorError("seulement 2 joueurs acceptés")
-        
         elif isinstance(joueurs[0], str) and isinstance(joueurs[1], str):
-            self.joueurs = [{'nom': joueurs[0], 'murs': 10, 'pos': (5, 1)}, 
-                            {'nom': joueurs[1], 'murs': 10, 'pos': (5, 9)}]
+            self.joueurs = [{'nom': joueurs[0], 'murs': 10, 'pos': (5, 1)}, {'nom': joueurs[1], 'murs': 10, 'pos': (5, 9)}]
             self.murs = {'horizontaux': [], 'verticaux': []}
 
         elif isinstance(joueurs[0], dict) and isinstance(joueurs[1], dict):
 
-            if joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] < 0 or joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] >10:
+            if joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] < 0 or joueurs['joueurs'][0]['murs'] or joueurs['joueurs'][0]['murs'] > 10:
                 raise QuoridorError('nombre de murs invalide')
 
             elif joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] or joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] < 0 or joueurs['joueurs'][0]['pos'][0] or joueurs['joueurs'][0]['pos'][1] or joueurs['joueurs'][1]['pos'][0] or joueurs['joueurs'][1]['pos'][1] > 9:
@@ -111,7 +108,6 @@ class Quoridor:
             for i in murs['verticaux']:
                 if 2 > i[0] > 9 or 1 > i[1] > 8:
                     raise QuoridorError("la position d'un mur est invalide")
-            
             self.joueurs = joueurs
             self.murs = murs
 
@@ -188,16 +184,15 @@ class Quoridor:
         for i in range(1):
             position = self.joueurs[i]['pos']
             for pos in position:
-                if not 1<=pos<=9:
+                if not 1 <= pos <= 9:
                     raise QuoridorError("Position out of range")
-                
         self.état = {'joueurs': self.joueurs, 'murs': self.murs}
         return self.état
 
     def jouer_coup(self, joueur):
         """Fonction qui détermine le meileur coup possible"""
         self.graphe = construire_graphe(
-            [joueur['pos'] for joueur in état['joueurs']], 
+            [joueur['pos'] for joueur in état['joueurs']],
             self.état['murs']['horizontaux'],
             self.état['murs']['verticaux'])
         # On trouve le chemin le plus court et se déplace dans cette direction
