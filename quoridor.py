@@ -114,51 +114,56 @@ class Quoridor:
 
     def __str__(self):
         '''Fonction qui donne le damier de jeu'''
-        legende = 'Légende: 1: ' + self.joueurs[0]['nom'] +  ' 2:' + self.joueurs[0]['nom'] + '\n'
-        top = ' '*3 + '-'*35 + ' \n'
-        temp_middle = []
-        empty_mid_section = ' '*2 + '|' + ' '.join(['   ']*9) + '|\n'
+       def afficher_damier_ascii(dico):
+            legende = 'Légende: 1: ' + idul +  ' 2:automate' + '\n'
 
-        for i in list(range(1, 10))[::-1]:
-            temp_middle.append(f'{i} |' + ' '.join([' . ']*9) + '|\n')
+            top = ' '*3 + '-'*35 + ' \n'
 
-        middle = empty_mid_section.join(temp_middle)
-        bot = '--|' + '-'*35 + ' \n'
-        bot += '  | ' + '   '.join([f'{i}' for i in range(1, 10)])
-        board = ''.join([legende, top, middle, bot])
+            temp_middle = []
+            empty_mid_section = ' '*2 + '|' + ' '.join(['   ']*9) + '|\n'
 
-        #Mettre le damier en liste
-        board_split = [list(ligne) for ligne in board.split('\n')]
+            for i in list(range(1, 10))[::-1]:
+                temp_middle.append(f'{i} |' + ' '.join([' . ']*9) + '|\n')
 
-        #PLACER JOUEUR
-        #position  joueur 1
-        for position in range(1):
-            self.joueurs[0]["pos"][0], self.joueurs[0]["pos"][1] = dico["joueurs"][0]['pos']
-            board_split[-2*self.joueurs[0]["pos"][1]+20][self.joueurs[0]["pos"][0]*4] = '1'
+            middle = empty_mid_section.join(temp_middle)
 
-        #position joueur 2
-        for position in range(1):
-            self.joueurs[1]['pos'][0], self.joueurs[1]['pos'][1] = dico["joueurs"][1]['pos']
-            board_split[-2*self.joueurs[1]['pos'][1]+20][self.joueurs[1]['pos'][0]*4] = '2'
+            bot = '--|' + '-'*35 + ' \n'
+            bot += '  | ' + '   '.join([f'{i}' for i in range(1, 10)])
+            board = ''.join([legende, top, middle, bot])
 
-        #PLACER MURS
-        #placer murs horizontaux
-        for placement in range(len(dico["murs"]["horizontaux"])):
-            for i in dico['murs']['horizontaux']:
-                self.murs['horizontaux'][i][0], self.murs['horizontaux'][i][0] = dico["murs"]["horizontaux"][placement]
+            #Mettre le damier en liste
+            board_split = [list(ligne) for ligne in board.split('\n')]
+
+            #PLACER JOUEUR
+            #position  joueur 1
+            for position in range(1):
+                x, y = dico["joueurs"][0]['pos']
+                board_split[-2*y+20][x*4] = '1'
+
+            #position joueur 2
+            for position in range(1):
+                x, y = dico["joueurs"][1]['pos']
+                board_split[-2*y+20][x*4] = '2'
+
+            #PLACER MURS
+            #placer murs horizontaux
+            for placement in range(len(dico["murs"]["horizontaux"])):
+                x, y = dico["murs"]["horizontaux"][placement]
                 for variable in range(7):
-                    board_split[-2*self.murs['horizontaux'][i][0]+21][4*self.murs['horizontaux'][i][0]-1+variable] = '-'
+                    board_split[-2*y+21][4*x-1+variable] = '-'
 
-        #placer murs verticaux
-        for placement in range(len(dico["murs"]["verticaux"])):
-            for i in dico['murs']['verticaux']:
-                self.murs['verticaux'][i][0], self.murs['verticaux'][i][1] = dico["murs"]["verticaux"][placement]
+            #placer murs verticaux
+            for placement in range(len(dico["murs"]["verticaux"])):
+                x, y = dico["murs"]["verticaux"][placement]
                 for variable in range(3):
-                    board_split[-2*self.murs['verticaux'][i][1]+18+variable][4*self.murs['verticaux'][i][0]-2] = '|'
+                    board_split[-2*y+18+variable][4*x-2] = '|'
 
-        #Remettre le damier en str
-        rep = '\n'.join([''.join(elem) for elem in board_split])
-        print(rep)
+            #Remettre le damier en str
+            rep = '\n'.join([''.join(elem) for elem in board_split])
+            print(rep)
+
+            
+        afficher_damier_ascii(self.état_partie())
 
     def déplacer_jeton(self, joueur, position):
         '''Méthode qui détermine les déplacements possibles'''
